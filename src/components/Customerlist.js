@@ -1,6 +1,6 @@
 import React from 'react';
 import './List.css';
-
+//Password field is masked to not show password. 
 function CustomerList({ customers, formObject, handleListClick }) {
   return (
     <div className="boxed">
@@ -22,7 +22,7 @@ function CustomerList({ customers, formObject, handleListClick }) {
             >
               <td>{item.name}</td>
               <td>{item.email}</td>
-              <td>{item.password}</td>
+              <td className="masked">******</td>
             </tr>
           ))}
         </tbody>

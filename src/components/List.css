@@ -80,4 +80,7 @@ table#customer-add-update tbody tr td.label{
     margin:0px;
     border: 0px;
 }
-
+.masked {
+  color: rgb(230, 27, 27);
+  
+}
