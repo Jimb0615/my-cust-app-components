@@ -19,7 +19,9 @@ export function App(params) {
 
   const handleListClick = function(item){
     log("in handleListClick()");
-    setFormObject(item);
+    //setFormObject(item);
+    // modified to deselect on second click. 
+    setFormObject(item.id === formObject.id ? blankCustomer : item);
   }  
 
   const handleInputChange = function (event) {
