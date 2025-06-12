@@ -1,79 +1,84 @@
-import React, { useState, useEffect } from 'react';
-import { getAll, post, put, deleteById } from './memdb.js';
-import CustomerList from './components/Customerlist.js';
+import React, {useState, useEffect} from 'react';
+import { getAll, post, put, deleteById } from './memdb.js' 
 import CustomerForm from './components/Customerform.js';
+import Customerlist from './components/Customerlist.js'
+import './App.css';
 
+function log(message){console.log(message);}
 
-function log(message) {
-  console.log(message);
-}
-
-export function App() {
-  const blankCustomer = { id: -1, name: '', email: '', password: '' };
+export function App(params) {
+  let blankCustomer = { "id": -1, "name": "", "email": "", "password": "" };
   const [customers, setCustomers] = useState([]);
   const [formObject, setFormObject] = useState(blankCustomer);
-
-  const mode = formObject.id >= 0 ? 'Update' : 'Add';
-
-  useEffect(() => {
-    getCustomers();
-  }, []);
-
-  const getCustomers = () => {
-    log('in getCustomers()');
+  let mode = (formObject.id >= 0) ? 'Update' : 'Add';
+  useEffect(() => { getCustomers() }, []);
+  
+  const getCustomers =  function(){
+    log("in getCustomers()");
+    log("in getCustomers()"); 
     setCustomers(getAll());
-  };
+  }
 
-  const handleListClick = (item) => {
-    log('in handleListClick()');
-    setFormObject(item.id === formObject.id ? blankCustomer : item);
-  };
+  const handleListClick = function(item){
+    log("in handleListClick()");
+    //setFormObject(item);
+    // modified with if/else to deselect on second click. 
+    if (formObject.id === item.id)
+        {setFormObject(blankCustomer)
+      }
+      else {setFormObject(item)
+      }
+  }  
 
-  const handleInputChange = (event) => {
-    log('in handleInputChange()');
-    const { name, value } = event.target;
-    setFormObject((prev) => ({ ...prev, [name]: value }));
-  };
+  const handleInputChange = function (event) {
+    log("in handleInputChange()");
+    const name = event.target.name; 
+    const value = event.target.value; 
+    let newFormObject = {...formObject} 
+    newFormObject[name] = value; 
+    setFormObject(newFormObject); 
+  }
 
-  const onCancelClick = () => {
-    log('in onCancelClick()');
+  let onCancelClick = function () {
+    log("in onCancelClick()");
     setFormObject(blankCustomer);
-  };
+  }
 
-  const onDeleteClick = () => {
-    if (formObject.id >= 0) {
-      deleteById(formObject.id);
-      getCustomers();
-    }
+  let onDeleteClick = function () {
+    if(formObject.id >= 0){ 
+      deleteById(formObject.id); 
+    } 
     setFormObject(blankCustomer);
-  };
+  }
 
-  const onSaveClick = () => {
-    if (mode === 'Add') {
-      post(formObject);
-    } else if (mode === 'Update') {
-      put(formObject.id, formObject);
-    }
-    getCustomers();
-    setFormObject(blankCustomer);
-  };
+  let onSaveClick = function () { 
+    if (mode === 'Add') { 
+        post(formObject); 
+    } 
+    if (mode === 'Update') { 
+        put(formObject.id, formObject); 
+    } 
+    setFormObject(blankCustomer); 
+  }
 
   return (
     <div>
-      <CustomerList
+      <Customerlist
         customers={customers}
         formObject={formObject}
         handleListClick={handleListClick}
-      />
+      />  
+   
       <CustomerForm
-        mode={mode}
-        formObject={formObject}
-        handleInputChange={handleInputChange}
-        onSaveClick={onSaveClick}
-        onDeleteClick={onDeleteClick}
-        onCancelClick={onCancelClick}
+           mode={mode}
+           formObject={formObject}
+           handleInputChange={handleInputChange}
+           onSaveClick={onSaveClick}
+           onDeleteClick={onDeleteClick}
+           onCancelClick={onCancelClick}
       />
-    </div>
+    </div>  
+  
   );
 }
 
