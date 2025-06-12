@@ -1,7 +1,7 @@
 {
   "name": "phase02-cust-app",
   "version": "0.1.0",
-  "homepage": "https://Jimb0615.github.io/my-cust-app",
+  "homepage": "https://Jimb0615.github.io/my-cust-app-components",
   "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
